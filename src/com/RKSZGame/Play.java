@@ -95,19 +95,19 @@ public class Play extends BasicGameState{
 			bombSet.playAsSoundEffect(1.0f, 1f, false);
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
-			playerY-= 2;
+			playerY-= 2.5;
 			//if(playerY > topOfMap)
 				//playerY += .25;
 		}
 		else if(input.isKeyDown(Input.KEY_DOWN)){
-			playerY+= 2;
+			playerY+= 2.5;
 		}
 		else if(input.isKeyDown(Input.KEY_LEFT)){
 			player = moveLeft;
-			playerX-= 2;
+			playerX-= 2.5;
 		}
 		else if(input.isKeyDown(Input.KEY_RIGHT)){
-			playerX+= 2;
+			playerX+= 2.5;
 		}
 
 		else
