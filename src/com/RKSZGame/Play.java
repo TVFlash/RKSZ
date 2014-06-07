@@ -73,10 +73,11 @@ public class Play extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		player.draw(playerX, playerY);
 		
 		for(Bomb b: bombs)
 			b.render(gc, g);
+		
+		player.draw(playerX, playerY);
 	}
 
 	@Override
@@ -90,11 +91,21 @@ public class Play extends BasicGameState{
 		
 		if(activeBombs < MAX_BOMBS && input.isKeyDown(Input.KEY_X) && cooldown == 0){
 			currentBomb = (activeBombs == 0) ? 1 : 2;
-			bombs[currentBomb] = new Bomb(playerX, playerY, 0);
+			if(bombs[currentBomb].getIsAlive() == false){
+			bombs[currentBomb] = new Bomb(playerX, playerY, 0, currentBomb);
 			activeBombs++;
-			//bombs[0].updated(delta);
 			cooldown = 15;
 			bombSet.playAsSoundEffect(1.0f, 1f, false);
+			}
+			else
+				currentBomb = (currentBomb == 1) ? 2 : 1;
+
+			if(bombs[currentBomb].getIsAlive() == false){
+				bombs[currentBomb] = new Bomb(playerX, playerY, 0, currentBomb);
+				activeBombs++;
+				cooldown = 15;
+				bombSet.playAsSoundEffect(1.0f, 1f, false);
+			}
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
 			playerY-= 2.5;
@@ -115,27 +126,19 @@ public class Play extends BasicGameState{
 		else
 			player = moveDown;
 		
-		if(input.isKeyDown(Input.KEY_ESCAPE))
+		if(input.isKeyDown(Input.KEY_ESCAPE)){
 			sbg.enterState(0);
+		}
 		
-		/**for(Bomb b: bombs){
+		for(Bomb b: bombs){
 			if(b.updated(b.getTime()+1) == false && activeBombs > 0){
-				System.out.printf("Bomb %d\n", activeBombs);
-				//activeBombs--;
+				activeBombs = (activeBombs == 2) ? 1 : 0;
 			}
-		}**/
+		}
 		
 		SoundStore.get().poll(0);
 		if(cooldown > 0)
 			cooldown--;
-		else if(activeBombs > 0){
-			if(currentBomb == 1)
-				bombs[2].detonate();
-			else
-				bombs[1].detonate();
-			System.out.printf("Bomb %d\n", currentBomb);
-			activeBombs--;
-		}
 	}
 
 	@Override
