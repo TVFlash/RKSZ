@@ -40,13 +40,15 @@ public class Bomb {
 		return isAlive;
 	}
 	
-	public void update(int time){
-		if(time == 2){
+	public boolean updated(int time){
+		if(time == 60){
 			isAlive = false;
+			return false;
 		}
 		
 		else
-			time++;
+			this.time++;
+		return true;
 	}
 	public void render(GameContainer gc, Graphics  g) throws SlickException{
 		if(isAlive){

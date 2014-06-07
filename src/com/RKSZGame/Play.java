@@ -89,10 +89,9 @@ public class Play extends BasicGameState{
 		if(activeBombs < MAX_BOMBS && input.isKeyDown(Input.KEY_X) && cooldown == 0){
 			bombs[activeBombs] = new Bomb(playerX, playerY, 0);
 			activeBombs++;
-			bombs[0].update(delta);
+			bombs[0].updated(delta);
 
 			cooldown = 15;//May need change on final release
-			System.out.print("Bombs"+ activeBombs +"/n");
 			bombSet.playAsSoundEffect(1.0f, 1f, false);
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
@@ -117,8 +116,10 @@ public class Play extends BasicGameState{
 		if(input.isKeyDown(Input.KEY_ESCAPE))
 			sbg.enterState(0);
 		
-		for(Bomb b: bombs)
-			b.update(b.getTime()+1);
+		for(Bomb b: bombs){
+			if(b.updated(b.getTime()+1) == false && activeBombs > 0)
+				activeBombs--;
+		}
 		
 		SoundStore.get().poll(0);
 		if(cooldown > 0)
