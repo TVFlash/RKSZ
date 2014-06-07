@@ -91,24 +91,24 @@ public class Play extends BasicGameState{
 			activeBombs++;
 			bombs[0].update(delta);
 
-			cooldown = 600;//May need change on final release
+			cooldown = 15;//May need change on final release
 			System.out.print("Bombs"+ activeBombs +"/n");
 			bombSet.playAsSoundEffect(1.0f, 1f, false);
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
-			playerY-= .25;
+			playerY-= 2;
 			//if(playerY > topOfMap)
 				//playerY += .25;
 		}
 		else if(input.isKeyDown(Input.KEY_DOWN)){
-			playerY+= .25;
+			playerY+= 2;
 		}
 		else if(input.isKeyDown(Input.KEY_LEFT)){
 			player = moveLeft;
-			playerX-= .25;
+			playerX-= 2;
 		}
 		else if(input.isKeyDown(Input.KEY_RIGHT)){
-			playerX+= .25;
+			playerX+= 2;
 		}
 
 		else
