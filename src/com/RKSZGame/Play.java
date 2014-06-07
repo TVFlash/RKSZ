@@ -27,6 +27,7 @@ public class Play extends BasicGameState{
 	
 	int health;
 	int activeBombs;
+	int currentBomb;
 	
 	public Play(int state){
 		
@@ -50,6 +51,7 @@ public class Play extends BasicGameState{
 		firstPass = true;
 		health = 100;
 		activeBombs = 0;
+		currentBomb = 0;
 		cooldown = 0;
 		
 		bombs = new Bomb[3];
@@ -87,11 +89,11 @@ public class Play extends BasicGameState{
 		}
 		
 		if(activeBombs < MAX_BOMBS && input.isKeyDown(Input.KEY_X) && cooldown == 0){
-			bombs[activeBombs] = new Bomb(playerX, playerY, 0);
+			currentBomb = (activeBombs == 0) ? 1 : 2;
+			bombs[currentBomb] = new Bomb(playerX, playerY, 0);
 			activeBombs++;
-			bombs[0].updated(delta);
-
-			cooldown = 15;//May need change on final release
+			//bombs[0].updated(delta);
+			cooldown = 15;
 			bombSet.playAsSoundEffect(1.0f, 1f, false);
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
@@ -116,14 +118,24 @@ public class Play extends BasicGameState{
 		if(input.isKeyDown(Input.KEY_ESCAPE))
 			sbg.enterState(0);
 		
-		for(Bomb b: bombs){
-			if(b.updated(b.getTime()+1) == false && activeBombs > 0)
-				System.out.printf("Removed\n");//activeBombs--;
-		}
+		/**for(Bomb b: bombs){
+			if(b.updated(b.getTime()+1) == false && activeBombs > 0){
+				System.out.printf("Bomb %d\n", activeBombs);
+				//activeBombs--;
+			}
+		}**/
 		
 		SoundStore.get().poll(0);
 		if(cooldown > 0)
 			cooldown--;
+		else if(activeBombs > 0){
+			if(currentBomb == 1)
+				bombs[2].detonate();
+			else
+				bombs[1].detonate();
+			System.out.printf("Bomb %d\n", currentBomb);
+			activeBombs--;
+		}
 	}
 
 	@Override
