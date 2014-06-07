@@ -19,7 +19,7 @@ public class Menu extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {		
-		g.drawImage(bg, 0, 0, 1280, 720, 0, 0, 640, 480);
+		g.drawImage(bg, 0, 0);
 		
 		g.drawString("RKSZ", 640, 360);
 
