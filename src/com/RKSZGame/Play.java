@@ -118,7 +118,7 @@ public class Play extends BasicGameState{
 		
 		for(Bomb b: bombs){
 			if(b.updated(b.getTime()+1) == false && activeBombs > 0)
-				activeBombs--;
+				System.out.printf("Removed\n");//activeBombs--;
 		}
 		
 		SoundStore.get().poll(0);
