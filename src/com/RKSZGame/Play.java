@@ -11,6 +11,7 @@ import org.newdawn.slick.openal.SoundStore;
 public class Play extends BasicGameState{
 	private static int MAX_BOMBS = 2;
 	private Animation player, moveUp, moveDown, moveLeft, moveRight;
+	Image board;
 	
 	private Audio stageMusic;
 	private Audio damage;
@@ -20,8 +21,8 @@ public class Play extends BasicGameState{
 	private Bomb[] bombs;
 	int cooldown;
 	
-	private float playerX = 0;
-	private float playerY = 0;
+	private float playerX = 215;
+	private float playerY = 85;
 	
 	private boolean firstPass;
 	
@@ -40,7 +41,7 @@ public class Play extends BasicGameState{
 		Image[] mDown = {new Image("res/Zornespritefs.png"), new Image("res/Zornespritefs.png")};
 		Image[] mLeft = {new Image("res/ZornespritefsL1.png"), new Image("res/ZornespritefsL1.png")};
 		Image[] mRight = {new Image("res/Zornespritefs.png"), new Image("res/Zornespritefs.png")};
-		
+		board = new Image("res/boardbig.png");
 		moveUp = new Animation(mUP, duration, false);
 		moveDown = new Animation(mDown, duration, false);
 		moveLeft = new Animation(mLeft, duration, false);
@@ -73,7 +74,8 @@ public class Play extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		
+		board.draw(215, 85);
+
 		for(Bomb b: bombs)
 			b.render(gc, g);
 		
@@ -108,12 +110,12 @@ public class Play extends BasicGameState{
 			}
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
-			playerY-= 2.5;
-			//if(playerY > topOfMap)
-				//playerY += .25;
+			if(playerY > 85)
+				playerY-= 2.5;
 		}
 		else if(input.isKeyDown(Input.KEY_DOWN)){
-			playerY+= 2.5;
+			if(playerY < 575)
+				playerY+= 2.5;
 		}
 		else if(input.isKeyDown(Input.KEY_LEFT)){
 			player = moveLeft;

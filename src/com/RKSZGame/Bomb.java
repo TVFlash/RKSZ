@@ -47,11 +47,7 @@ public class Bomb {
 			this.time++;
 		return isAlive;
 	}
-	
-	public int getBombID(){
-		return bombID;
-	}
-	
+
 	public void render(GameContainer gc, Graphics  g) throws SlickException{
 		if(isAlive){
 			bombmap.draw(x, y);
