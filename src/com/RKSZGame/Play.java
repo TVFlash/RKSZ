@@ -110,19 +110,25 @@ public class Play extends BasicGameState{
 			}
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
-			if(playerY > 85)
+			if(playerY > 85){
 				playerY-= 2.5;
+			}
 		}
 		else if(input.isKeyDown(Input.KEY_DOWN)){
-			if(playerY < 575)
+			if(playerY < 575){
 				playerY+= 2.5;
+			}
 		}
 		else if(input.isKeyDown(Input.KEY_LEFT)){
-			player = moveLeft;
-			playerX-= 2.5;
+			if(playerX > 215){
+				player = moveLeft;
+				playerX-= 2.5;
+			}
 		}
 		else if(input.isKeyDown(Input.KEY_RIGHT)){
-			playerX+= 2.5;
+			if(playerX < 1004){
+				playerX+= 2.5;
+			}
 		}
 
 		else
