@@ -1,30 +1,29 @@
 package com.RKSZGame;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.openal.*;
+import org.newdawn.slick.openal.SoundStore;
 
 public class Bomb {
 
     private float x;
     private float y;
     private int time;
-    int bombID;
     private boolean isAlive;
-	private Animation bomb;
-	private SpriteSheet bombSheet;
+    Audio noise;
+    private SpriteSheet bombSheet;
 	private Animation bombmap; 
 	//Used for creating empty array of bombs
 	public Bomb(){
 		isAlive = false;
-		bombID = 0;
 	}
 	
-	public Bomb(float x, float y, int time, int id) throws SlickException{
+	public Bomb(float x, float y, int time, Audio noise) throws SlickException{
 		this.x = x;
 		this.y = y;
 		this.time = time;
-		bombID = id;
 		isAlive = true;
-		
+		this.noise = noise;
 		//TODO: Get sprites 
 		
 		bombSheet = new SpriteSheet("res/bombmap.png", 32, 32);
@@ -40,10 +39,10 @@ public class Bomb {
 	}
 	
 	public boolean updated(int time){
-		if(time == 60){
+		if(time == 100 && x != 0){
 			isAlive = false;
+			noise.playAsSoundEffect(1.0f, 1f, false);
 		}
-		else
 			this.time++;
 		return isAlive;
 	}
@@ -51,7 +50,6 @@ public class Bomb {
 	public void render(GameContainer gc, Graphics  g) throws SlickException{
 		if(isAlive){
 			bombmap.draw(x, y);
-			//bomb.draw(x, y);
 		}
 	}
 }

@@ -13,9 +13,7 @@ public class Play extends BasicGameState{
 	private Animation player, moveUp, moveDown, moveLeft, moveRight;
 	Image board;
 	
-	private Audio stageMusic;
-	private Audio damage;
-	private Audio bombSet;
+	private Audio stageMusic, damage, bombSet, bombExplode;
 
 	private int[] duration = {200, 200};
 	private Bomb[] bombs;
@@ -67,6 +65,8 @@ public class Play extends BasicGameState{
 			damage =  AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/hit.wav"));
 			//Load bomb set noise from file
 			bombSet =  AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/bom_set.wav"));
+			//load bomb explode noise from file
+			bombExplode =  AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/bom_last.wav"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -94,18 +94,18 @@ public class Play extends BasicGameState{
 		if(activeBombs < MAX_BOMBS && input.isKeyDown(Input.KEY_X) && cooldown == 0){
 			currentBomb = (activeBombs == 0) ? 1 : 2;
 			if(bombs[currentBomb].getIsAlive() == false){
-			bombs[currentBomb] = new Bomb(playerX, playerY, 0, currentBomb);
-			activeBombs++;
-			cooldown = 15;
-			bombSet.playAsSoundEffect(1.0f, 1f, false);
+				bombs[currentBomb] = new Bomb(playerX, playerY, 0, bombExplode);
+				activeBombs++;
+				cooldown = 15;
+				bombSet.playAsSoundEffect(1.0f, 1f, false);
 			}
 			else
 				currentBomb = (currentBomb == 1) ? 2 : 1;
 
 			if(bombs[currentBomb].getIsAlive() == false){
-				bombs[currentBomb] = new Bomb(playerX, playerY, 0, currentBomb);
+				bombs[currentBomb] = new Bomb(playerX, playerY, 0, bombExplode);
 				activeBombs++;
-				cooldown = 15;
+				cooldown = 20;
 				bombSet.playAsSoundEffect(1.0f, 1f, false);
 			}
 		}
@@ -141,6 +141,7 @@ public class Play extends BasicGameState{
 		for(Bomb b: bombs){
 			if(b.updated(b.getTime()+1) == false && activeBombs > 0){
 				activeBombs = (activeBombs == 2) ? 1 : 0;
+				
 			}
 		}
 		
