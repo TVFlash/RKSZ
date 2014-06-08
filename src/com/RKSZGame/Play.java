@@ -9,10 +9,10 @@ import org.newdawn.slick.openal.*;
 
 public class Play extends BasicGameState{
 	private static int MAX_BOMBS = 2;
-	private static int GAME_WIDTH = 1000;
+	private static int GAME_WIDTH = 850;
 	private static int GAME_HEIGHT = 550;
 	private Animation player, moveUp, moveDown, moveLeft, moveRight;
-	Image board, block, background;
+	Image board, aPillar, bPillar, background;
 	
 	private Audio stageMusic, damage, bombSet, bombExplode;
 
@@ -29,6 +29,8 @@ public class Play extends BasicGameState{
 	int activeBombs;
 	int currentBomb;
 	
+	Pillar pillars[];
+	
 	public Play(int state){
 		
 	}
@@ -41,8 +43,9 @@ public class Play extends BasicGameState{
 		Image[] mLeft = {new Image("res/ZornespritefsL1.png"), new Image("res/ZornespritefsL1.png")};
 		Image[] mRight = {new Image("res/Zornespritefs.png"), new Image("res/Zornespritefs.png")};
 		
-		board = new Image("res/boardbig.png");
-		block = new Image("res/peg.png");
+		board = new Image("res/bgs1.png");
+		aPillar = new Image("res/pillars1a.png");
+		bPillar = new Image("res/pillars1b.png");
 		background = new Image("res/bg.png");
 		
 		moveUp = new Animation(mUP, duration, false);
@@ -59,9 +62,20 @@ public class Play extends BasicGameState{
 		cooldown = 0;
 		
 		bombs = new Bomb[3];
+		pillars = new Pillar[40];
+		
 		for(int i = 0; i < bombs.length; i++)
 			bombs[i] = new Bomb();
-		
+		int index = 0;
+		for(int col = 135; col < GAME_HEIGHT + 85; col+= 100){
+			for(int row = 265; row < GAME_WIDTH + 215; row+= 100){
+				if(Math.random() * 10 > 6)
+					pillars[index] = new Pillar(row, col, bPillar);
+				else
+					pillars[index] = new Pillar(row, col, aPillar);
+				++index;
+			}
+		}
 		/** Load IMG assets **/
 	    try {
 	    	//Load Stage music from file
@@ -84,10 +98,10 @@ public class Play extends BasicGameState{
 		for(Bomb b: bombs)
 			b.render(gc, g);
 		player.draw(playerX, playerY);
-		
-		for(int col = 135; col <= GAME_HEIGHT; col+= 100)
-			for(int row = 265; row <= GAME_WIDTH; row+= 100)
-				block.draw(row, col);
+	
+		for(Pillar p: pillars)
+			p.render(gc, g);
+			
 	}
 
 	@Override
