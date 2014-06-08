@@ -6,12 +6,13 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.newdawn.slick.util.ResourceLoader;
 import org.newdawn.slick.openal.*;
-import org.newdawn.slick.openal.SoundStore;
 
 public class Play extends BasicGameState{
 	private static int MAX_BOMBS = 2;
+	private static int GAME_WIDTH = 1000;
+	private static int GAME_HEIGHT = 550;
 	private Animation player, moveUp, moveDown, moveLeft, moveRight;
-	Image board;
+	Image board, block, background;
 	
 	private Audio stageMusic, damage, bombSet, bombExplode;
 
@@ -39,7 +40,11 @@ public class Play extends BasicGameState{
 		Image[] mDown = {new Image("res/Zornespritefs.png"), new Image("res/Zornespritefs.png")};
 		Image[] mLeft = {new Image("res/ZornespritefsL1.png"), new Image("res/ZornespritefsL1.png")};
 		Image[] mRight = {new Image("res/Zornespritefs.png"), new Image("res/Zornespritefs.png")};
+		
 		board = new Image("res/boardbig.png");
+		block = new Image("res/peg.png");
+		background = new Image("res/bg.png");
+		
 		moveUp = new Animation(mUP, duration, false);
 		moveDown = new Animation(mDown, duration, false);
 		moveLeft = new Animation(mLeft, duration, false);
@@ -74,12 +79,15 @@ public class Play extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		background.draw();
 		board.draw(215, 85);
-
 		for(Bomb b: bombs)
 			b.render(gc, g);
-		
 		player.draw(playerX, playerY);
+		
+		for(int col = 135; col <= GAME_HEIGHT; col+= 100)
+			for(int row = 265; row <= GAME_WIDTH; row+= 100)
+				block.draw(row, col);
 	}
 
 	@Override

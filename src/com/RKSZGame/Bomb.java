@@ -24,7 +24,6 @@ public class Bomb {
 		this.time = time;
 		isAlive = true;
 		this.noise = noise;
-		//TODO: Get sprites 
 		
 		bombSheet = new SpriteSheet("res/bombmap.png", 32, 32);
 		bombmap = new Animation(bombSheet, 200);
