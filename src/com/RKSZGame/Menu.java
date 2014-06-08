@@ -13,16 +13,13 @@ public class Menu extends BasicGameState{
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		bg = new Image("res/bg.png");
+		bg = new Image("res/bgmenu.png");
 
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {		
 		g.drawImage(bg, 0, 0);
-		
-		g.drawString("RKSZ", 640, 360);
-
 	}
 
 	@Override

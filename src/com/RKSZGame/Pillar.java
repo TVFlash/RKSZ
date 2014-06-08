@@ -18,7 +18,7 @@ public class Pillar {
 		pillarPicture = image;
 	}
 	
-	public boolean inBounds(int objX, int objY){
+	public boolean inBounds(float objX, float objY){
 		if((objX > x && objX < x + 50) && (objY > y && objY < y + 50))
 			return true;
 		return false;

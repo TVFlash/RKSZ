@@ -113,6 +113,7 @@ public class Play extends BasicGameState{
 			firstPass = false;
 		}
 		
+		boolean canMove = true;
 		if(activeBombs < MAX_BOMBS && input.isKeyDown(Input.KEY_X) && cooldown == 0){
 			currentBomb = (activeBombs == 0) ? 1 : 2;
 			if(bombs[currentBomb].getIsAlive() == false){
@@ -132,24 +133,37 @@ public class Play extends BasicGameState{
 			}
 		}
 		if(input.isKeyDown(Input.KEY_UP)){
-			if(playerY > 85){
-				playerY-= 2.5;
+				for(Pillar p: pillars)
+					if(p.inBounds(playerX, playerY))
+						canMove = false;
+				if(playerY > 85 && canMove){
+					playerY-= 2.5;	
 			}
 		}
 		else if(input.isKeyDown(Input.KEY_DOWN)){
-			if(playerY < 575){
-				playerY+= 2.5;
+				for(Pillar p: pillars)
+					if(p.inBounds(playerX, playerY))
+						canMove = false;
+				
+				if(playerY < 575 && canMove){
+					playerY+= 2.5;
 			}
 		}
 		else if(input.isKeyDown(Input.KEY_LEFT)){
-			if(playerX > 215){
-				player = moveLeft;
-				playerX-= 2.5;
+				for(Pillar p: pillars)
+					if(p.inBounds(playerX, playerY))
+						canMove = false;
+				if(playerX > 215 && canMove){
+					player = moveLeft;
+					playerX-= 2.5;
 			}
 		}
 		else if(input.isKeyDown(Input.KEY_RIGHT)){
-			if(playerX < 1004){
-				playerX+= 2.5;
+				for(Pillar p: pillars)
+					if(p.inBounds(playerX, playerY))
+						canMove = false;
+				if(playerX < 1004 && canMove){
+					playerX+= 2.5;
 			}
 		}
 
@@ -163,9 +177,9 @@ public class Play extends BasicGameState{
 		for(Bomb b: bombs){
 			if(b.updated(b.getTime()+1) == false && activeBombs > 0){
 				activeBombs = (activeBombs == 2) ? 1 : 0;
-				
 			}
 		}
+		
 		
 		SoundStore.get().poll(0);
 		if(cooldown > 0)
